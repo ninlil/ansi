@@ -1,0 +1,143 @@
+package ansi
+
+type Style int
+
+// Bitmask
+/*
+ 0	Red Foreground
+ 1	Green Foreground
+ 2  Blue Foreground
+ 3	Bright Foreground
+ 4	Foreground specified
+
+ 5	Red Background
+ 6  Green Background
+ 7	Blue Background
+ 8	Bright Background
+ 9  Background specified
+
+ 10 Bold
+ 11 Faint
+ 12 Italic
+ 13 Inverse
+ 14	Hidden
+*/
+
+const (
+	Default Style = 0
+
+	Black   Style = 0b10000
+	Red     Style = 0b10001
+	Green   Style = 0b10010
+	Yellow  Style = 0b10011
+	Blue    Style = 0b10100
+	Magenta Style = 0b10101
+	Cyan    Style = 0b10110
+	White   Style = 0b10111
+	Bright  Style = 0b11000
+
+	Bold       Style = 1 << 10
+	Faint      Style = 1 << 11
+	Italic     Style = 1 << 12
+	Inverse    Style = 1 << 13
+	Hide       Style = 1 << 14
+	Strikethru Style = 1 << 15
+)
+
+func (s Style) Background() Style {
+	if s&0b11111 != 0 {
+		return (s & 0b11111) << 5 // extract foreground and shift into background
+	}
+	return 0
+}
+
+func NewStyle(styles ...Style) Style {
+	var style Style
+	for _, v := range styles {
+
+		// clear fore and background if setting a replacement color (dont want bits to overwrite) (keep brightness)
+		if v&0b01000 == 0 && v&0b10000 != 0 { // not setting bright, but a color
+			style = style &^ 0b00111 //) | (style & 0b01000)
+		}
+		if v&0b11111_00000 != 0 {
+			style = (style &^ 0b11111_00000) | (style & 0b01000_00000)
+		}
+
+		style |= v
+	}
+	return style
+}
+
+func (style Style) String() string {
+
+	if style == Default {
+		return "\033[0;39;49m"
+	}
+
+	var values []int
+	// Effects
+	if style&Bold != 0 {
+		values = append(values, 1)
+	}
+	if style&Faint != 0 {
+		values = append(values, 2)
+	}
+	if style&Italic != 0 {
+		values = append(values, 3)
+	}
+	if style&Inverse != 0 {
+		values = append(values, 7)
+	}
+	if style&Hide != 0 {
+		values = append(values, 8)
+	}
+	if style&Strikethru != 0 {
+		values = append(values, 9)
+	}
+	if len(values) == 0 {
+		values = append(values, 0)
+	}
+	// colors
+	if fg := makeColor(style, false); fg != -1 {
+		values = append(values, fg)
+	}
+	if bg := makeColor(style, true); bg != -1 {
+		values = append(values, bg)
+	}
+
+	// create ANSI escape-sequence
+	var runes []rune
+	runes = append(runes, '\033', '[')
+	for i, n := range values {
+		if i > 0 {
+			runes = append(runes, ';')
+		}
+		if n >= 100 {
+			runes = append(runes, rune('0'+(n/100%10)))
+		}
+		if n >= 10 {
+			runes = append(runes, rune('0'+(n/10%10)))
+		}
+		runes = append(runes, rune('0'+(n%10)))
+	}
+	return string(append(runes, 'm'))
+}
+
+func makeColor(style Style, isBG bool) int {
+	color := int(style)
+	if isBG {
+		color = color >> 5
+	}
+	if color&0b10000 == 0 {
+		return -1
+	}
+	index := 30
+	if isBG {
+		index += 10
+	}
+	if color&0b01000 != 0 {
+		index += 60
+	}
+
+	return index + color&0b111
+}
