@@ -36,7 +36,7 @@ checkTemp(105.5) // will print value in red
 ```
 
 Different coding styles:
-```
+```go
 error1 := ansi.Red.Background() | ansi.Yellow | ansi.Bright
 error2 := ansi.NewStyle(ansi.Red.Background(), ansi.Yellow, ansi.Bright)
 error3 := (ansi.Yellow | ansi.Bright).RedBack(true)
