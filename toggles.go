@@ -2,6 +2,7 @@ package ansi
 
 // Effects
 
+// Bold sets the Bold-bit according to the bool-argument
 func (s Style) Bold(f bool) Style {
 	if f {
 		return s | Bold
@@ -9,6 +10,7 @@ func (s Style) Bold(f bool) Style {
 	return s &^ Bold
 }
 
+// Faint sets the Faint-bit according to the bool-argument
 func (s Style) Faint(f bool) Style {
 	if f {
 		return s | Faint
@@ -16,6 +18,7 @@ func (s Style) Faint(f bool) Style {
 	return s &^ Faint
 }
 
+// Italic sets the Italic-bit according to the bool-argument
 func (s Style) Italic(f bool) Style {
 	if f {
 		return s | Italic
@@ -23,6 +26,7 @@ func (s Style) Italic(f bool) Style {
 	return s &^ Italic
 }
 
+// Inverse sets the Inverse-bit according to the bool-argument
 func (s Style) Inverse(f bool) Style {
 	if f {
 		return s | Inverse
@@ -30,6 +34,7 @@ func (s Style) Inverse(f bool) Style {
 	return s &^ Inverse
 }
 
+// Hide sets the Hide-bit according to the bool-argument
 func (s Style) Hide(f bool) Style {
 	if f {
 		return s | Hide
@@ -37,6 +42,7 @@ func (s Style) Hide(f bool) Style {
 	return s &^ Hide
 }
 
+// Strikethru sets the Strikethru-bit according to the bool-argument
 func (s Style) Strikethru(f bool) Style {
 	if f {
 		return s | Strikethru
@@ -46,6 +52,7 @@ func (s Style) Strikethru(f bool) Style {
 
 // Foreground colors
 
+// BlackFore set the foreground to black if the argument is 'true'
 func (s Style) BlackFore(f bool) Style {
 	if f {
 		return s&^0b111 | Black
@@ -53,6 +60,7 @@ func (s Style) BlackFore(f bool) Style {
 	return s
 }
 
+// RedFore set the foreground to red if the argument is 'true'
 func (s Style) RedFore(f bool) Style {
 	if f {
 		return s&^0b111 | Red
@@ -60,6 +68,7 @@ func (s Style) RedFore(f bool) Style {
 	return s
 }
 
+// GreenFore set the foreground to green if the argument is 'true'
 func (s Style) GreenFore(f bool) Style {
 	if f {
 		return s&^0b111 | Green
@@ -67,6 +76,7 @@ func (s Style) GreenFore(f bool) Style {
 	return s
 }
 
+// YellowFore set the foreground to yellow if the argument is 'true'
 func (s Style) YellowFore(f bool) Style {
 	if f {
 		return s&^0b111 | Yellow
@@ -74,6 +84,7 @@ func (s Style) YellowFore(f bool) Style {
 	return s
 }
 
+// BlueFore set the foreground to blue if the argument is 'true'
 func (s Style) BlueFore(f bool) Style {
 	if f {
 		return s&^0b111 | Blue
@@ -81,6 +92,7 @@ func (s Style) BlueFore(f bool) Style {
 	return s
 }
 
+// MagentaFore set the foreground to magenta if the argument is 'true'
 func (s Style) MagentaFore(f bool) Style {
 	if f {
 		return s&^0b111 | Magenta
@@ -88,6 +100,7 @@ func (s Style) MagentaFore(f bool) Style {
 	return s
 }
 
+// CyanFore set the foreground to cyan if the argument is 'true'
 func (s Style) CyanFore(f bool) Style {
 	if f {
 		return s&^0b111 | Cyan
@@ -95,6 +108,7 @@ func (s Style) CyanFore(f bool) Style {
 	return s
 }
 
+// WhiteFore set the foreground to white if the argument is 'true'
 func (s Style) WhiteFore(f bool) Style {
 	if f {
 		return s&^0b111 | White
@@ -102,6 +116,7 @@ func (s Style) WhiteFore(f bool) Style {
 	return s
 }
 
+// BrightFore set the foreground to bright if the argument is 'true'
 func (s Style) BrightFore(f bool) Style {
 	if f {
 		return s | Bright
@@ -111,6 +126,7 @@ func (s Style) BrightFore(f bool) Style {
 
 // Background colors
 
+// BlackBack set the background to black if the argument is 'true'
 func (s Style) BlackBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Black<<5
@@ -118,6 +134,7 @@ func (s Style) BlackBack(f bool) Style {
 	return s
 }
 
+// RedBack set the background to red if the argument is 'true'
 func (s Style) RedBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Red<<5
@@ -125,6 +142,7 @@ func (s Style) RedBack(f bool) Style {
 	return s
 }
 
+// GreenBack set the background to green if the argument is 'true'
 func (s Style) GreenBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Green<<5
@@ -132,6 +150,7 @@ func (s Style) GreenBack(f bool) Style {
 	return s
 }
 
+// YellowBack set the background to yellow if the argument is 'true'
 func (s Style) YellowBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Yellow<<5
@@ -139,6 +158,7 @@ func (s Style) YellowBack(f bool) Style {
 	return s
 }
 
+// BlueBack set the background to blue if the argument is 'true'
 func (s Style) BlueBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Blue<<5
@@ -146,6 +166,7 @@ func (s Style) BlueBack(f bool) Style {
 	return s
 }
 
+// MagentaBack set the background to magenta if the argument is 'true'
 func (s Style) MagentaBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Magenta<<5
@@ -153,6 +174,7 @@ func (s Style) MagentaBack(f bool) Style {
 	return s
 }
 
+// CyanBack set the background to cyan if the argument is 'true'
 func (s Style) CyanBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | Cyan<<5
@@ -160,6 +182,7 @@ func (s Style) CyanBack(f bool) Style {
 	return s
 }
 
+// WhiteBack set the background to white if the argument is 'true'
 func (s Style) WhiteBack(f bool) Style {
 	if f {
 		return s&^0b111_00000 | White<<5
@@ -167,6 +190,7 @@ func (s Style) WhiteBack(f bool) Style {
 	return s
 }
 
+// BrightBack set the background to bright if the argument is 'true'
 func (s Style) BrightBack(f bool) Style {
 	if f {
 		return s | Bright<<5

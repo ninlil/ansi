@@ -1,5 +1,6 @@
 package ansi
 
+// Style contains the bits for all colors and styles
 type Style int
 
 // Bitmask
@@ -23,6 +24,7 @@ type Style int
  14	Hidden
 */
 
+// Colors and flags for all different styles
 const (
 	Default Style = 0
 
@@ -44,6 +46,7 @@ const (
 	Strikethru Style = 1 << 15
 )
 
+// Background uses the current foreground color as the background
 func (s Style) Background() Style {
 	if s&0b11111 != 0 {
 		return (s & 0b11111) << 5 // extract foreground and shift into background
@@ -51,6 +54,7 @@ func (s Style) Background() Style {
 	return 0
 }
 
+// NewStyle create a new style from the list of arguments
 func NewStyle(styles ...Style) Style {
 	var style Style
 	for _, v := range styles {
@@ -68,6 +72,7 @@ func NewStyle(styles ...Style) Style {
 	return style
 }
 
+// String converts the Style into the corresponding ANSI-Escape sequence
 func (style Style) String() string {
 
 	if style == Default {
@@ -98,10 +103,10 @@ func (style Style) String() string {
 		values = append(values, 0)
 	}
 	// colors
-	if fg := makeColor(style, false); fg != -1 {
+	if fg := makeColor(style, 30); fg != -1 {
 		values = append(values, fg)
 	}
-	if bg := makeColor(style, true); bg != -1 {
+	if bg := makeColor(style>>5, 40); bg != -1 {
 		values = append(values, bg)
 	}
 
@@ -123,17 +128,10 @@ func (style Style) String() string {
 	return string(append(runes, 'm'))
 }
 
-func makeColor(style Style, isBG bool) int {
+func makeColor(style Style, index int) int {
 	color := int(style)
-	if isBG {
-		color = color >> 5
-	}
 	if color&0b10000 == 0 {
 		return -1
-	}
-	index := 30
-	if isBG {
-		index += 10
 	}
 	if color&0b01000 != 0 {
 		index += 60

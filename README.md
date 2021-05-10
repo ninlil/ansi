@@ -46,6 +46,11 @@ error3 := (ansi.Yellow | ansi.Bright).RedBack(true)
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ninlil/columns/tags). 
 
+## Code usage
+
+* [Go Report Card](https://goreportcard.com/report/github.com/ninlil/ansi)
+* [pkg.go.dev](https://pkg.go.dev/github.com/ninlil/ansi)
+
 ## Authors
 
 * **ninlil** - *Initial work* - [ninlil](https://github.com/ninlil)
