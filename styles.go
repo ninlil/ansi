@@ -73,40 +73,40 @@ func NewStyle(styles ...Style) Style {
 }
 
 // String converts the Style into the corresponding ANSI-Escape sequence
-func (style Style) String() string {
+func (s Style) String() string {
 
-	if style == Default {
+	if s == Default {
 		return "\033[0;39;49m"
 	}
 
 	var values []int
 	// Effects
-	if style&Bold != 0 {
+	if s&Bold != 0 {
 		values = append(values, 1)
 	}
-	if style&Faint != 0 {
+	if s&Faint != 0 {
 		values = append(values, 2)
 	}
-	if style&Italic != 0 {
+	if s&Italic != 0 {
 		values = append(values, 3)
 	}
-	if style&Inverse != 0 {
+	if s&Inverse != 0 {
 		values = append(values, 7)
 	}
-	if style&Hide != 0 {
+	if s&Hide != 0 {
 		values = append(values, 8)
 	}
-	if style&Strikethru != 0 {
+	if s&Strikethru != 0 {
 		values = append(values, 9)
 	}
 	if len(values) == 0 {
 		values = append(values, 0)
 	}
 	// colors
-	if fg := makeColor(style, 30); fg != -1 {
+	if fg := makeColor(s, 30); fg != -1 {
 		values = append(values, fg)
 	}
-	if bg := makeColor(style>>5, 40); bg != -1 {
+	if bg := makeColor(s>>5, 40); bg != -1 {
 		values = append(values, bg)
 	}
 
@@ -128,8 +128,8 @@ func (style Style) String() string {
 	return string(append(runes, 'm'))
 }
 
-func makeColor(style Style, index int) int {
-	color := int(style)
+func makeColor(s Style, index int) int {
+	color := int(s)
 	if color&0b10000 == 0 {
 		return -1
 	}
