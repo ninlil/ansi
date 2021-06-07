@@ -72,15 +72,8 @@ func NewStyle(styles ...Style) Style {
 	return style
 }
 
-// String converts the Style into the corresponding ANSI-Escape sequence
-func (s Style) String() string {
-
-	if s == Default {
-		return "\033[0;39;49m"
-	}
-
-	var values []int
-	// Effects
+func (s Style) flags2values() []int {
+	var values = make([]int, 0, 4) // 4 = default initial capacity of attributes
 	if s&Bold != 0 {
 		values = append(values, 1)
 	}
@@ -99,6 +92,19 @@ func (s Style) String() string {
 	if s&Strikethru != 0 {
 		values = append(values, 9)
 	}
+	return values
+}
+
+// String converts the Style into the corresponding ANSI-Escape sequence
+func (s Style) String() string {
+
+	if s == Default {
+		return "\033[0;39;49m"
+	}
+
+	values := s.flags2values()
+
+	// Effects
 	if len(values) == 0 {
 		values = append(values, 0)
 	}
@@ -111,7 +117,7 @@ func (s Style) String() string {
 	}
 
 	// create ANSI escape-sequence
-	var runes []rune
+	var runes = make([]rune, 0, 8) // 8 is default initial capacity of escape-sequence
 	runes = append(runes, '\033', '[')
 	for i, n := range values {
 		if i > 0 {

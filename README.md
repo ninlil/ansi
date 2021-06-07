@@ -2,6 +2,9 @@
 
 a small package to generate ansi-styling and coloring strings
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/ninlil/ansi)](https://goreportcard.com/report/github.com/ninlil/ansi)
+[![codebeat badge](https://codebeat.co/badges/fce0bda4-ec66-4a6b-a10a-f8f471e7a06c)](https://codebeat.co/projects/github-com-ninlil-ansi-main)
+
 ## Getting Started
 
 ### Installing
@@ -48,7 +51,6 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Code usage
 
-* [Go Report Card](https://goreportcard.com/report/github.com/ninlil/ansi)
 * [pkg.go.dev](https://pkg.go.dev/github.com/ninlil/ansi)
 
 ## Authors
